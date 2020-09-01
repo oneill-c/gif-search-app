@@ -13,7 +13,7 @@ function App() {
   }
 
   const executeQuery = async () => {
-    const result = await axios.get(`https://api.giphy.com/v1/gifs/search?api_key=d6PiZFkypriSO88HqRqBBrUu1Z2M1G50&q=${query}&limit=25&offset=0&rating=G&lang=en`)
+    const result = await axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_KEY}&q=${query}&limit=25&offset=0&rating=G&lang=en`)
 
     setGif(result.data.data.map((o: any) => o.images['preview_gif'].url))
   }
