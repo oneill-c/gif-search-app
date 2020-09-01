@@ -1,21 +1,26 @@
 import React, { useState, FormEvent } from 'react';
-import axios from 'axios'
+
+import { fetchGifs } from './actions'
 
 import './App.css';
 
 function App() {
 
   const [ query, setQuery ] = useState('')
-  const [ gifs, setGif ] = useState([])
+  const [ gifs, setGif ] = useState<string[]>([])
 
   const onChange = (e: FormEvent<HTMLInputElement>): void => {
     setQuery(e.currentTarget.value)
   }
 
   const executeQuery = async () => {
-    const result = await axios.get(`https://api.giphy.com/v1/gifs/search?api_key=${process.env.REACT_APP_GIPHY_KEY}&q=${query}&limit=25&offset=0&rating=G&lang=en`)
+    const { data, error }= await fetchGifs(query)
 
-    setGif(result.data.data.map((o: any) => o.images['preview_gif'].url))
+    if (error) {
+      // handle error
+    }
+
+    setGif(data.map((o: GiphyDataObject) => o.images.preview_gif.url))
   }
 
   const imageList = gifs.length > 0 && gifs.map(gif => <img key={gif} src={gif} />)
