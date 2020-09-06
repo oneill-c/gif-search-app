@@ -1,8 +1,5 @@
 import React, { useState, FormEvent } from 'react';
-
 import { fetchGifs } from './actions'
-
-import './App.css';
 
 function App() {
 
@@ -26,7 +23,7 @@ function App() {
   const imageList = gifs.length > 0 && gifs.map(gif => <img key={gif} src={gif} />)
 
   return (
-    <div className="App">
+    <div>
       
       <div>
         <br/>
