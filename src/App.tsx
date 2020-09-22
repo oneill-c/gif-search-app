@@ -1,51 +1,53 @@
-import React, { useState, FormEvent } from 'react';
-import axios from 'axios'
+import React, { useState } from 'react';
+import styled from 'styled-components'
 
-import './App.css';
+import { fetchGifs } from './actions'
+import Search from './modules/shared/search';
 
-function App() {
+interface AppProps {
+  className: string
+}
 
-  const [query, setQuery] = useState('')
-  const [gifs, setGif] = useState([])
+const App = ({ className }: AppProps) => {
 
-  const onChange = (e: FormEvent<HTMLInputElement>): void => {
-    setQuery(e.currentTarget.value)
-  }
+  const [gifs, setGif] = useState<string[]>([])
 
-  const executeQuery = async () => {
-    const result = await axios.get(`https://api.giphy.com/v1/gifs/search?api_key=d6PiZFkypriSO88HqRqBBrUu1Z2M1G50&q=${query}&limit=25&offset=0&rating=G&lang=en`)
+  /**
+   * executeQuery
+   * 
+   * @param {string} query Query to pass to the API call
+   */
+  const executeQuery = async (query: string) => {
+    const { data } = await fetchGifs(query)
 
-    setGif(result.data.data.map((o: any) => o.images['preview_gif'].url))
+    setGif(data.map((o: GiphyDataObject) => o.images.preview_gif.url))
   }
 
   const imageList = gifs.length > 0 && gifs.map(gif => <img key={gif} src={gif} alt={gif} />)
 
   return (
-    <div className="App">
-
-      <div>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-
-        <input type="text" value={query} onChange={onChange} />
-        <button onClick={executeQuery}>Search</button>
-
-        <div>
-          {imageList}
+    <>
+      <div className={className}>
+        <div className="search-container">
+          <h1>FIND-A-MEME</h1>
+          <Search id="search" onComplete={executeQuery} />
         </div>
       </div>
-    </div>
+
+      <div>
+        {imageList}
+      </div>
+    </>
   );
 }
 
-export default App;
+export default styled(App).attrs({
+  className: ''
+})`
+  color: #63FFD5;
+  height: 100%;
+
+  .search-container {
+    margin: 20% 30% 0 30%;
+  }
+`
