@@ -3,7 +3,7 @@ name: Development workflow
 on:
   push:
     branches:
-      - netlify-ci-setup
+      - master
 
 jobs:
   deploy:
