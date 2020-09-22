@@ -18,12 +18,10 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "build:css": "postcss src/assets/tailwind.css -o src/assets/styles.css",
-    "watch:css": "postcss src/assets/tailwind.css -o src/assets/styles.css",
-    "start": "yarn run watch:css & react-scripts start",
-    "build": "yarn run build:css & react-scripts build",
-    "test": "react-scripts test",
-    "test:watch": "react-scripts test --watch=true",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --watchAll=false",
+    "test:watch": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
